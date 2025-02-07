@@ -1,10 +1,7 @@
+import java.util.Arrays;
+
 class Solution {
     public int[] solution(int[] numbers) {
-        int i = 0;
-        while(i < numbers.length){
-            numbers[i] *= 2;
-            i += 1;
-        }
-        return numbers;
+        return Arrays.stream(numbers).map(i-> i*2).toArray();
     }
 }
