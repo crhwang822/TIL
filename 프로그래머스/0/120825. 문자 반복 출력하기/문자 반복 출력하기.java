@@ -3,8 +3,11 @@ import java.util.stream.Collectors;
 
 class Solution {
     public String solution(String my_string, int n) {
-        String answer = Arrays.stream(my_string.split("")).map(i-> i.repeat(n))
-            .collect(Collectors.joining());
+        String answer ="";
+        String[] strlist = my_string.split("");
+        for(int i=0; i<strlist.length; i++){
+            answer += strlist[i].repeat(n);
+        }
         return answer;
     }
 }
