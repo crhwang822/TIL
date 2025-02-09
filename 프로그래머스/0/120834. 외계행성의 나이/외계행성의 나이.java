@@ -1,13 +1,14 @@
+import java.lang.StringBuilder;
+
 class Solution {
     public String solution(int age) {
-        String str = String.valueOf(age);
-        int diff = 'a' - '0';
+        StringBuilder sb = new StringBuilder();
         
-        String answer = "";
-        for(int i=0; i<str.length(); i++)
-            answer += (char) ((int)str.charAt(i) + diff);
-        
-        return answer;
+        while(age>0){
+            sb.insert(0, (char)(age % 10 + (int)'a'));
+            age /= 10;
+        }
+        return sb.toString();
 
     }
 }
