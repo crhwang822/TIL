@@ -8,7 +8,7 @@ class Solution {
             if(n%i==0)
                 list.add(i);
         }
-        int[] answer = list.stream().sorted().mapToInt(i->i).toArray();
+        int[] answer = list.stream().mapToInt(i->i).toArray();
         return answer;
     }
 }
