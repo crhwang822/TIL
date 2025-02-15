@@ -1,42 +1,25 @@
 class Solution {
     public int[][] solution(int n) {
         int[][] answer = new int[n][n];
-        String[] direction = {"right", "down", "left", "up"};
-        int row = 0;
-        int column = 0;
+        int s = 0;
+        int e = n - 1;
         int val = 1;
-        int idx = 0;
-        int round = 0;
         
         while(val <= n*n){
-            switch(direction[idx]){
-                case "right":
-                    while(column < n - round)
-                        answer[row][column++] = val++;
-                    column--;
-                    row++;
-                    break;
-                case "down":
-                    while(row < n - round)
-                        answer[row++][column] = val++;
-                    row--;
-                    column--;
-                    break;
-                case "left":
-                    while(column >= 0 + round)
-                        answer[row][column--] = val++;
-                    column++;
-                    row--;
-                    round++;
-                    break;
-                case "up":
-                    while(row >= 0 + round)
-                        answer[row--][column] = val++;
-                    row++;
-                    column++;
-                    break;
+            for(int i = s; i <= e; i++){
+                answer[s][i] = val++;
             }
-            idx = (++idx) % 4;
+            for(int i = s+1; i <= e; i++){
+                answer[i][e] = val++;
+            }
+            for(int i = e-1; i >= s; i--){
+                answer[e][i] = val++;
+            }
+            for(int i = e-1; i > s; i--){
+                answer[i][s] = val++;
+            }
+            s++;
+            e--;
         }
         
         
