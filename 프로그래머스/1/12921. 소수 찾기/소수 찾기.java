@@ -7,13 +7,13 @@ class Solution {
         for(int i = 2; i <= n; i++){
             if(i % 2 == 0) //2를 제외한 짝수는 포함 X
                 continue;
-            answer += isDecimal(i);
+            answer += isPrime(i);
         }
         
         return answer;
     }
     
-    public int isDecimal(int n){
+    public int isPrime(int n){
         for(int i = 3; i <= Math.sqrt(n); i++){
             if(n % i == 0)
                 return 0;
