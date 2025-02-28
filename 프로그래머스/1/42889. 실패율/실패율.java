@@ -25,15 +25,17 @@ class Solution {
             map.replace(key, value);
         }
         
+        //실패율 내림차순 정렬
         List<Map.Entry<Integer,Double>> entryList = new LinkedList<>(map.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         
+        //정렬된 스테이지를 리스트에 저장
         for(int i = 0; i < entryList.size(); i++){
             if(entryList.get(i).getKey() != N + 1)
                 list.add(entryList.get(i).getKey());    
         }
         
-        //실패율이 0인 스테이지들
+        //실패율이 0인 스테이지를 리스트에 저장
         for(int i = 1; i < N + 1; i++){
             if(map.containsKey(i))
                 continue;
