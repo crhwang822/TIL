@@ -10,8 +10,7 @@ class Solution {
     }
     
     private int lcm(int a, int b) {
-        int num = gcd(a,b);
-        return num * (a / num) * (b / num);
+        return a * b / gcd(a, b);
     }
     
     private int gcd(int a, int b) {
