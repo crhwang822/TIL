@@ -4,13 +4,9 @@ class Solution {
         
         for(int i = 0; i < arr1.length; i++) {
             for(int j = 0; j < arr2[0].length; j++) {
-                int sum = 0;
-                int idx = 0;
-                while(idx < arr2.length) {
-                    sum += arr1[i][idx] * arr2[idx][j];
-                    idx++;
+                for(int k = 0; k < arr2.length; k++) {
+                    answer[i][j] += arr1[i][k] * arr2[k][j];
                 }
-                answer[i][j] = sum;
             }
         }
         
