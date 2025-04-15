@@ -1,32 +1,26 @@
-import java.util.*;
+//DFS 풀이
 
 class Solution {
+    
     public int solution(int k, int[][] dungeons) {
-        Arrays.sort(dungeons, new Comparator<>(){
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0]; //최소 필요 피로도 기준 오름차순 정렬
-            }
-        });
+        boolean[] visited = new boolean[dungeons.length];
         
-        //dungeon 배열의 인덱스를 저장
-        List<Integer> list = new ArrayList<>();
-        for(int i = 0; i < dungeons.length; i++)
-            list.add(i);
+        int answer = dfs(0, visited, dungeons, k);
         
-        int answer = count(list, dungeons, k);
         return answer;
     }
     
-    private int count(List<Integer> list, int[][] dungeons, int k) {
-        int max = 0;
-        for(int i = 0; i < list.size(); i++) {
-            int idx = list.get(i);
-            List<Integer> temp = new ArrayList<>(list);
-            if(dungeons[idx][0] > k)
-                break;
-            temp.remove(i);
-            max = Math.max(max, count(temp, dungeons, k - dungeons[idx][1]) + 1);
+    private int dfs(int depth, boolean[] visited, int[][] dungeons, int k) {
+        int max = depth;
+        for(int i = 0; i < dungeons.length; i++) {
+            if(visited[i])
+                continue;
+            if(dungeons[i][0] > k)
+                continue;
+            visited[i] = true;
+            max = Math.max(max, 
+                             dfs(depth + 1, visited, dungeons, k - dungeons[i][1]));
+            visited[i] = false;
         }
         return max;
     }
