@@ -1,19 +1,22 @@
-import java.lang.Math;
+import java.util.*;
 
 class Solution {
     public int solution(String word) {
-        int answer = 0;
-        String alphabet = "AEIOU";
-        
-        for(int i = 0; i < word.length(); i++) {
-            String w = String.valueOf(word.charAt(i));
-            int index = alphabet.indexOf(w);
-            int sum = 0;
-            for(int j = 0; j < 5 - i; j++) {
-                sum += Math.pow(5, j);
-            }
-            answer += index * sum + 1;
-        }
+        List<String> dict = new ArrayList<>();
+        dfs(dict, "");
+        int answer = dict.indexOf(word);
         return answer;
+    }
+    
+    public void dfs(List<String> dict, String word) {
+        
+        dict.add(word);
+        
+        if(word.length() == 5)
+            return;
+        String alphabet = "AEIOU";
+        for(int i = 0; i < alphabet.length(); i++) {
+            dfs(dict, word + String.valueOf(alphabet.charAt(i)));
+        }
     }
 }
