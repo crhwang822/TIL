@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 public class Solution {
     public static void main(String[] args) {
@@ -10,23 +11,23 @@ public class Solution {
             
             System.out.println("#" + testCase);
             int n = sc.nextInt();
-        	int temp = 0;
+            
+            StringBuilder sb = new StringBuilder();
             
             for(int i = 0; i < n; i++) {
                 sc.nextLine();
                 String s = sc.next();
-                int c = sc.nextInt();
-                for(int j = 0; j < c; j++) {
-                    if(temp == 10) {
-                        System.out.println();
-                        temp = 0;
-                    }
-                    System.out.print(s);
-                	temp++;
-                }
+                int count = sc.nextInt();
+                for(int j = 0; j < count; j++)
+                    sb.append(s);
             }
-        	System.out.println();
             
+            String str = sb.toString();
+            while(str.length() > 10) {
+                System.out.println(str.substring(0,10));
+                str = str.substring(10);
+            }
+            System.out.println(str);
         }
     }
 }
