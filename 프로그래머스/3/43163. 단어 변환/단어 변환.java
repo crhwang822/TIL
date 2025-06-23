@@ -4,35 +4,31 @@ class Solution {
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
         
-        List<String> list = new ArrayList<>();
-        list.add(begin);
-        for(int i = 0; i < words.length; i++)
-            list.add(words[i]);
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(begin, 0));
         
-        if(!list.contains(target))
-            return answer;
-        
-        Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{0, 0});
+        boolean[] visited = new boolean[words.length];
         
         while(!q.isEmpty()) {
-            int[] temp = q.poll();
-            if(list.get(temp[0]).equals(target)) {
-                answer = temp[1];
+            Node node = q.poll();
+            
+            if(node.str.equals(target)) {
+                answer = node.cnt;
                 break;
             }
-            for(int i = 1; i < list.size(); i++) {
-                if(temp[0] == i)
-                    continue;
-                if(compare(list.get(temp[0]), list.get(i)))
-                    q.offer(new int[]{i, temp[1] + 1});
+            
+            for(int i = 0; i < words.length; i++) {
+                if(!visited[i] && compare(node.str, words[i])) {
+                    q.offer(new Node(words[i], node.cnt + 1));
+                    visited[i] = true;
+                }
             }
         }
         
         return answer;
     }
     
-    boolean compare(String s1, String s2) {
+    public boolean compare(String s1, String s2) {
         int n = 0;
         for(int i = 0; i < s1.length(); i++) {
             if(s1.charAt(i) != s2.charAt(i))
@@ -41,5 +37,15 @@ class Solution {
         if(n == 1)
             return true;
         return false;
+    }
+    
+    static class Node {
+        String str;
+        int cnt;
+        
+        public Node(String str, int cnt) {
+            this.str = str;
+            this.cnt = cnt;
+        }
     }
 }
