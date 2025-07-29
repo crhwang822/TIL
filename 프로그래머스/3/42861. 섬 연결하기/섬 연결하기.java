@@ -4,36 +4,37 @@ class Solution {
     public int solution(int n, int[][] costs) {
         int answer = 0;
         int[] parent = new int[n];
+        boolean[] visited = new boolean[n];
         
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < parent.length; i++)
             parent[i] = i;
         
-        Arrays.sort(costs, (a, b) -> a[2] - b[2]);
+        Arrays.sort(costs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[2] - o2[2];
+            }
+        });
         
-        for (int[] edge : costs) {
-            int a = edge[0];
-            int b = edge[1];
-            int cost = edge[2];
-            
-            if (find(parent, a) != find(parent, b)) {
+        for(int i = 0; i < costs.length; i++) {
+            int[] arr = costs[i];
+            int island = Math.min(arr[0], arr[1]);
+            int other = Math.max(arr[0], arr[1]);
+            int cost = arr[2];
+
+            if(find(parent, island) != find(parent, other)) {
                 answer += cost;
-                union(parent, a, b);
+                //union 시킬 때 루트를 찾아서 연결시켜줘야함 
+                parent[find(parent, other)] = island;
             }
         }
-        
+            
         return answer;
     }
     
-    private int find(int[] parent, int x) {
-        if (parent[x] != x)
+    public int find(int[] parent, int x) {
+        if(parent[x] != x)
             parent[x] = find(parent, parent[x]);
         return parent[x];
-    }
-    
-    private void union(int[] parent, int a, int b) {
-        a = find(parent, a);
-        b = find(parent, b);
-        if (a < b) parent[b] = a;
-        else parent[a] = b;
     }
 }
