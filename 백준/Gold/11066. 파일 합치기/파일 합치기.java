@@ -13,15 +13,12 @@ public class Main {
             int k = Integer.parseInt(br.readLine());
             st = new StringTokenizer(br.readLine());
             int[] files = new int[k];
-//            int[][] dp = new int[k][k];
-            List<int[][]> list = new ArrayList<>();
-            for(int i = 0; i < k; i++)
-                list.add(new int[k][2]);
+            int[] sum = new int[k+1];
+            int[][] dp = new int[k][k];
 
             for(int i = 0; i < k; i++) {
                 files[i] = Integer.parseInt(st.nextToken());
-                list.get(i)[i][0] = files[i];
-//                dp[i][i] = files[i];
+                sum[i+1] = sum[i] + files[i];
             }
 
 
@@ -30,22 +27,14 @@ public class Main {
                 for(int r = 0; r < k - 1; r++) { //row++
                     if(r + c >= k)
                         break;
-                    int min = Integer.MAX_VALUE;
+                    dp[r][r+c] = Integer.MAX_VALUE;
                     for(int i = r; i < r + c; i++) {
-//                        int temp = dp[r][i] + dp[i+1][r+c];
-                        int temp = list.get(r)[i][0] + list.get(i+1)[r+c][0] + list.get(r)[i][1] + list.get(i+1)[r+c][1];
-                        if(temp < min) {
-//                            a = dp[r][i];
-//                            b = dp[i+1][r+c];
-                            list.get(r)[r+c][0] = list.get(r)[i][0] + list.get(i+1)[r+c][0];
-                            list.get(r)[r+c][1] = temp;
-                            min = temp;
-                        }
+                        dp[r][r+c] = Math.min(dp[r][r+c], dp[r][i] + dp[i+1][r+c] + sum[r+c+1] - sum[r]);
                     }
-//                    dp[r][r+c] = min;
                 }
             }
-            bw.write(list.get(0)[k-1][1] + "\n");
+
+            bw.write(dp[0][k - 1] + "\n");
         }
 
         bw.close();
