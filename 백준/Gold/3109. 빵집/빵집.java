@@ -28,7 +28,7 @@ public class Main {
         int answer = 0;
         boolean[][] visited = new boolean[r][c];
         for(int i = 0; i < r; i++) {
-            if(dfs(map, visited, i, 0, i + 1))
+            if(dfs(map, visited, i, 0))
                 answer++;
         }
 
@@ -37,25 +37,27 @@ public class Main {
         bw.close();
     }
 
-    public static boolean dfs(int[][] map, boolean[][] visited,int r, int c, int n) {
+    public static boolean dfs(int[][] map, boolean[][] visited,int r, int c) {
         if(c == map[0].length - 1)
             return true;
 
-        if(map[r][c] != 0)
-            return false;
-        map[r][c] = n;
+        if(r > 0 && map[r-1][c] == 0 && !visited[r-1][c]) {
+            visited[r-1][c] = true;
+            if(dfs(map, visited, r-1, c + 1))
+                return true;
+        }
 
-        if(r > 0 && !visited[r-1][c] && dfs(map, visited, r - 1, c + 1, n))
-            return true;
+        if(map[r][c] == 0 && !visited[r][c]) {
+            visited[r][c] = true;
+            if(dfs(map, visited, r, c + 1))
+                return true;
+        }
 
-        if(!visited[r][c] && dfs(map, visited, r, c + 1, n))
-            return true;
+        if(r < map.length - 1 && map[r+1][c] == 0) {
+            visited[r+1][c] = true;
+            return dfs(map, visited, r + 1, c + 1);
+        }
 
-        if(r < map.length - 1 && !visited[r+1][c] &&dfs(map, visited, r + 1, c + 1, n))
-            return true;
-
-        map[r][c] = 0;
-        visited[r][c] = true;
         return false;
     }
 
