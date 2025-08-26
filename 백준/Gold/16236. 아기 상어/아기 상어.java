@@ -44,9 +44,11 @@ public class Main {
         });
         Queue<int[]> q = new LinkedList<>();
         boolean[][] visited = new boolean[n][n];
+        boolean flag;
         while(true) {
             q.clear();
             pq.clear();
+            flag = false;
             for(int i = 0; i < n; i++)
                 Arrays.fill(visited[i], false);
             visited[r][c] = true;
@@ -62,18 +64,23 @@ public class Main {
                         continue;
                     visited[nr][nc] = true;
                     if(map[nr][nc] != 0 && map[nr][nc] < size) {
-                        if(!pq.isEmpty() && pq.peek()[2]< cur[2] + 1)
+                        if(!pq.isEmpty() && pq.peek()[2]< cur[2] + 1) {
+                            flag = true;
                             break;
+                        }
                         pq.add(new int[]{nr, nc, cur[2] + 1});
                     }
                     q.add(new int[]{nr, nc, cur[2] + 1});
                 }
+                if(flag)
+                    break;
             }
             if(pq.isEmpty()) break;
             int[] next = pq.poll();
             map[r][c] = 0;
             r = next[0];
             c = next[1];
+            map[r][c] = 0;
             time += next[2];
             cnt++;
             if(cnt == size) {
