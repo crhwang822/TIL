@@ -21,8 +21,6 @@ public class Main {
         pq = new PriorityQueue<>(new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
-                if(o1[1] == o2[1])
-                    return Math.abs(o1[1] - k) - Math.abs(o2[1] - k);
                 return o1[1] - o2[1];
             }
         });
@@ -40,7 +38,6 @@ public class Main {
             if(dist[pos] < time)
                 continue;
 
-            
             if(pos == k)
                 break;
 
