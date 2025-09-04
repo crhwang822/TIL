@@ -13,11 +13,11 @@ public class Main {
         int k = Integer.parseInt(br.readLine());
 
         int[] dist = new int[v + 1];
+        boolean[] visited = new boolean[v + 1];
         ArrayList<Node>[] graph = new ArrayList[v + 1];
         for(int i = 1; i < v + 1; i++) { //v <= 20,000
             graph[i] = new ArrayList<>();
         }
-
         Arrays.fill(dist, Integer.MAX_VALUE);
         PriorityQueue<int[]> pq = new PriorityQueue<>((o1,o2) -> o1[1] - o2[1]);
 
@@ -34,8 +34,11 @@ public class Main {
 
         while(!pq.isEmpty()) {
             int[] cur = pq.poll();
-            if(dist[cur[0]] < cur[1])
+            if(visited[cur[0]])
                 continue;
+            visited[cur[0]] = true;
+//            if(dist[cur[0]] < cur[1])
+//                continue;
             for(Node n : graph[cur[0]]) {
                 int num = n.num;
                 if(dist[num] > dist[cur[0]] + n.weight) {
