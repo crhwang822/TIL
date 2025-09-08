@@ -55,18 +55,12 @@ public class Main {
             }
 
             boolean ambiguous = false;
-            boolean isInvalid = false;
 
             //위상정렬
-            for(int i = 0; i < n; i++) {
-                if(q.isEmpty()) {
-                    isInvalid = true;
-                    break;
-                }
 
+            while(!q.isEmpty()) {
                 if(q.size() > 1)
                     ambiguous = true;
-
                 int num = q.poll();
                 result.add(num);
                 for(int j = 1; j < n + 1; j++) {
@@ -79,7 +73,7 @@ public class Main {
             }
 
             //결과
-            if(isInvalid) {
+            if(result.size() != n) {
                 sb.append("IMPOSSIBLE\n");
             } else if(ambiguous) {
                 sb.append("?\n");
