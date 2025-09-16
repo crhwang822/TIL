@@ -1,49 +1,48 @@
 import java.io.*;
+import java.sql.Array;
 import java.util.*;
 
 public class Main {
 
-    public static int num = 1000000007;
-    public static long[] fact;
+    public static long mod = 1000000007;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());  // 4 * 10^6
-        int k = Integer.parseInt(st.nextToken());  // 4 * 10^6
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        fact = new long[n + 1];
-        Arrays.fill(fact, -1);
+        long[] fact = new long[n + 1];
         fact[0] = 1;
+        fact[1] = 1;
+        for(int i = 2; i <= n; i++)
+            fact[i] = (fact[i - 1] * i) % mod;
 
-        for(int i = 1; i < fact.length; i++) {
-            fact[i] = (fact[i - 1] * i) % num;
-        }
+        long answer = 0;
+        answer = ((fact[n] % mod) * (pow(fact[k], mod - 2) % mod)) % mod;
+        answer = answer * (pow(fact[n - k], mod - 2) % mod);
+        answer %= mod;
 
-        long ans;
-        if(k == 0 || k == n) {
-            ans = 1;
-        } else  {
-            ans = ((fact[n] % num) * (pow(fact[k], num - 2) % num)) % num ;
-            ans = (ans * (pow(fact[n - k], num - 2) % num)) % num;
-        }
-
-        sb.append(ans);
-
-        bw.write(sb.toString());
+        bw.write(answer + "");
         bw.close();
     }
 
-    static long pow(long a, long e) {
-        long res = 1L, base = a % num;
-        while (e > 0) {
-            if ((e & 1L) == 1L) res = (res * base) % num;
-            base = (base * base) % num;
-            e >>= 1;
+    public static long pow (long a, long b) {
+        long ans = 1;
+        long base = a;
+        while(b > 0) {
+            if(b % 2 == 1){
+                ans = (ans * base) % mod;
+                b--;
+            }
+            else {
+                base = (base * base) % mod;
+                b /= 2;
+            }
         }
-        return res;
+        return ans;
     }
 
 }
