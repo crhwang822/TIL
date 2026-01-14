@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
+    static int[] connected;
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -27,7 +29,11 @@ public class Main {
             @Override
             public int compare(int[] o1, int[] o2) {
                 //x1 기준 정렬
+                if(o1[1] == o2[1]) {
+                    return o1[2] - o2[2];
+                }
                 return o1[1] - o2[1];
+
             }
         });
 
@@ -38,9 +44,10 @@ public class Main {
 
         for(int i = 1; i < trees.length - 1; i++) {
             if(trees[i][2] >= trees[i + 1][1]) {
-                int min = Math.min(trees[i][0], trees[i + 1][0]);
-                connected[trees[i][0]] = connected[min];
-                connected[trees[i+1][0]] = connected[min];
+                connected[trees[i+1][0]] = trees[i][0];
+                trees[i + 1][0] = trees[i][0];
+                if (trees[i][2] > trees[i + 1][2])
+                    trees[i + 1][2] = trees[i][2];
             }
         }
 
@@ -57,5 +64,12 @@ public class Main {
         }
 
         bw.close();
+    }
+
+    public static int find(int x) {
+        if(connected[x] != x) {
+            connected[x] = find(connected[x]);
+        }
+        return connected[x];
     }
 }
