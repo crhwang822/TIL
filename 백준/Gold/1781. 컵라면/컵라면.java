@@ -31,24 +31,31 @@ public class Main {
             }
         });
 
-        PriorityQueue<int[]> maxQ = new PriorityQueue<>(new Comparator<int[]>() {
+        PriorityQueue<Integer> minQ = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
-            public int compare(int[] o1, int[] o2) {
-                //보상이 큰 순으로 정렬
-                return o2[1] - o1[1];
+            public int compare(Integer o1, Integer o2) {
+                //보상이 작은 순으로 정렬
+                return o1 - o2;
             }
         });
 
-        int index = n - 1;
-        for(int day = n; day > 0; day--) {
-            while(index > -1 && questions[index][0] >= day) {
-                maxQ.add(questions[index]);
-                index--;
+        int[] question;
+        for(int i = 0; i < n; i++) {
+            question = questions[i];
+            if(minQ.size() < question[0]) {
+                minQ.add(question[1]);
+            } else {
+                if(minQ.peek() < question[1]) {
+                    minQ.poll();
+                    minQ.add(question[1]);
+                }
             }
-
-            if(!maxQ.isEmpty())
-                max += maxQ.poll()[1];
         }
+
+        while(!minQ.isEmpty()) {
+            max += minQ.poll();
+        }
+
 
         bw.write(max + "");
         bw.close();
