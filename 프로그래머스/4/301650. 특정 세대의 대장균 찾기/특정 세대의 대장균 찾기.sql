@@ -1,0 +1,7 @@
+-- 코드를 작성해주세요
+SELECT c.id
+FROM  ECOLI_DATA a 
+JOIN ECOLI_DATA b on a.ID = b.PARENT_ID AND a.PARENT_ID IS NULL
+JOIN ECOLI_DATA c on b.ID = c.PARENT_ID
+ORDER BY c.id
+
