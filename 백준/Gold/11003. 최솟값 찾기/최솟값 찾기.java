@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
@@ -16,25 +14,26 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[1] - o2[1];
-            }
-        });
+        Deque<int[]> deque = new ArrayDeque<>();
 
-        int num;
-        int start;
+        int num, start;
+        int[] front;
         for(int i = 1; i <= N; i++) {
             num = Integer.parseInt(st.nextToken());
-            pq.add(new int[]{i, num});
             start = Math.max(1, i - L + 1);
 
-            while(pq.peek()[0] < start) {
-                pq.poll();
+            // num을 deque에 삽입
+            while(!deque.isEmpty() && deque.peekLast()[1] > num) {
+                deque.removeLast();
+            }
+            deque.addLast(new int[]{i, num});
+
+            // 출력
+            while(deque.peekFirst()[0] < start) {
+                deque.removeFirst();
             }
 
-            sb.append(pq.peek()[1]);
+            sb.append(deque.peekFirst()[1]);
             sb.append(" ");
         }
 
